@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+<title></title>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url("https://www.bharattaxi.com/blog/wp-content/uploads/2018/03/All-India-Taxi-Service.jpg");
+    color: white;
+}
+#container {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 80%;
+    color: white;
+    margin: 30px 100px ;
+    text-align: center;
+    padding: 20px;
+}
+#title {
+    text-align: center;
+    font-size: 50px;
+    font-family: "Bowlby One SC", cursive;
+    padding-top: 15px;
+    letter-spacing: 5px;
+}
+span {
+    color:#ff0000;
+}
+#description {
+    text-align: center;
+    font-size: 23px;
+    font-family: "Sorts Mill Goudy", sans-serif;
+    margin-bottom: 15px;
+}
+#survey-form {
+    width: 500px;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: auto;
+    padding-top: 10px;
+}
+
+#name-label, 
+#age-label, 
+#email-label, 
+#dropdown-label,
+#checkbox,
+#radio,
+#feed-label {
+  font-size: 20px;
+}
+
+#name,
+#age,
+#email,
+#dropdown {
+    margin-top: 16px;
+    height: 36px;
+    width: 400px;
+    padding: 10px;
+
+}
+#name:hover,
+#age:hover,
+#email:hover,
+#dropdown:hover {
+    background-color: azure;
+}
+#dropdown {
+    box-sizing: content-box;
+    resize: none;
+}
+.box {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+.text-area {
+    margin-top: 10px;
+}
+#submit {
+    background-color:red;
+    font-size: larger;
+    height: 45px;
+    width: 160px;
+    border-radius: 50px;
+    border: none;
+    color: white;
+    margin: 16px 0px 16px 50px;
+    text-align: center;
+}
+#submit:hover {
+    background: white;
+    color: red;
+    cursor: pointer;
+}
+#login {
+    background-color:red;
+    font-size: small;
+    height: 25px;
+    width: 60px;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    margin: 0px 0px -00px 50px;
+    text-align: center;
+}
+#login:hover {
+    background: white;
+    color: red;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+    <div id="container">
+
+        <h1 id="title">Online Cab <span>Services</span></h1>
+        <p id="description">Thank you for signing up at Online Cab Services. Tell us more about your self</p>
+
+        <form action="result.html" id="survey-form" method="GET" name="form" target="_blank" >
+
+            <div class="box">
+                <label for="name" id="name-label">Name</label><br>
+                <input type="text" id="name" name="name" placeholder="Enter Your Name" required>
+            </div>
+
+            <div class="box"> 
+                <label for="age" id="age-label">Age</label><br>
+                <input type="number" id="age" name="age" placeholder="Age" min="18" max="99" required>
+            </div>
+
+            <div class="box">
+                <label for="email" id="email-label">Email</label><br>
+                <input type="email" id="email" name="email" placeholder="Enter Your email">
+            </div>
+
+            <div class="box">
+                <label for="dropdown" id="dropdown-label">User Type</label><br>
+                <select name="content" id="dropdown">
+                    <option value="Customer" selected>Customer</option>
+                    <option value="Employee">Employee</option>
+                </select>
+            </div>
+
+            <div class="box">
+                <label id="radio">Gender</label><br>
+                <label> <input type="radio" id="first-radio" name="gender" value="Male"> Male</label><br>
+                <label><input type="radio" id="second-radio" name="gender" value="Female"> Female</label><br>
+                <label><input type="radio" id="third-radio" name="gender" value="Other"> Other</label> <br>
+            </div>
+
+            <button type="submit" id="submit" value="Send">
+                <a href="">
+            Submit
+                </a>
+            </button><br>
+            <button type="Login" id="login" value="Send">
+                <a href="">
+            Login?
+                </a>
+            </button>
+
+        </form>
+    </div>    
+</body>
+</html>

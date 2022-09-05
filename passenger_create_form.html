@@ -1,0 +1,209 @@
+<?php include 'db_info.php' ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="js/jquery.min.js"></script> 
+    <script>
+    function checkPasswordMatch() {
+        var password = $("#txtNewPassword").val();
+        var confirmPassword = $("#txtConfirmPassword").val();
+        if (password != confirmPassword)
+            $("#CheckPasswordMatch").html("Passwords does not match!");
+        else
+            $("#CheckPasswordMatch").html("Passwords match.");
+    }
+    $(document).ready(function () {
+       $("#txtConfirmPassword").keyup(checkPasswordMatch);
+    });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+<title></title>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url("https://www.bharattaxi.com/blog/wp-content/uploads/2018/03/All-India-Taxi-Service.jpg");
+    color: white;
+}
+#container {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 80%;
+    color: white;
+    margin: 30px 100px ;
+    text-align: center;
+    padding: 20px;
+}
+#title {
+    text-align: center;
+    font-size: 50px;
+    font-family: "Bowlby One SC", cursive;
+    padding-top: 15px;
+    letter-spacing: 5px;
+}
+span {
+    color:#ff0000;
+}
+#description {
+    text-align: center;
+    font-size: 23px;
+    font-family: "Sorts Mill Goudy", sans-serif;
+    margin-bottom: 15px;
+}
+#survey-form {
+    width: 500px;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: auto;
+    padding-top: 10px;
+}
+
+#name-label, 
+#age-label, 
+#email-label, 
+#password,
+#checkbox,
+#radio,
+#mobile_number
+#feed-label {
+  font-size: 20px;
+}
+
+#name,
+#age,
+#email,
+#password
+#mobile_number
+
+#name:hover,
+#age:hover,
+#email:hover,
+
+.box {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+.text-area {
+    margin-top: 10px;
+}
+#submit {
+    background-color:red;
+    font-size: larger;
+    height: 45px;
+    width: 160px;
+    border-radius: 50px;
+    border: none;
+    color: white;
+    margin: 16px 0px 16px 50px;
+    text-align: center;
+}
+#submit:hover {
+    background: white;
+    color: red;
+    cursor: pointer;
+}
+#login {
+    background-color:red;
+    font-size: small;
+    height: 25px;
+    width: 60px;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    margin: 0px 0px -00px 50px;
+    text-align: center;
+}
+#login:hover {
+    background: white;
+    color: red;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+    <div id="container">
+
+        <h1 id="title">Create <span>Passenger</span>Form</h1>
+        <p id="description">Thank you for signing up at Online Cab Services. Tell us more about your self</p>
+
+        <form action="result.html" id="survey-form" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" name="form" target="_blank" >
+
+            <div class="box">
+                <label for="name" id="name-label">Name</label><br>
+                <input type="text" name='f_name' required placeholder="First Name"><br>
+                <input type="text" name='l_name' required placeholder="Last Name">
+            </div>
+            <div class="box"> 
+                <label for="age" id="age-label">Age</label><br>
+                <input type="number" name="age" required placeholder="18+">
+            </div>
+            <div class="box">
+                <label for="email" id="email-label">Email</label><br>
+                <input type="email" name="email" required placeholder="abc@gmail.com">
+            </div>
+            <div class="box">
+                <label for="password" id="password">Password</label><br>
+                <input type="password" id="txtNewPassword" placeholder="Enter passward" name="pass" required><br>
+                <input type="password" id="txtConfirmPassword" placeholder="Confirm Passward" name="confpass" required>
+                <div class="registrationFormAlert" style="color:green;" id="CheckPasswordMatch">
+    </div>
+            </div>
+            <div class="box">
+                <label for="mobile_number" id="mobile_number">Mobile Number</label><br>
+                <input type="tel" name="mobile_number"  pattern="[7-9]{2}[0-9]{3}[0-9]{5}" placeholder="1234567890" required="">
+            </div>
+
+            <div class="box">
+                <label id="radio">Gender</label><br>
+                <input type="radio" name="gender" value="Male" required>
+                <label for="male">Male</label><br>
+                <input type="radio" name="gender" value="Female" required>
+                <label for="female">Female</label><br>  
+                <input type="radio" name="gender" value="Other" required>
+                <label for="other">Other</label><br><br>
+            </div>
+            
+            <button type="submit" id="submit" value="Send">
+                <a href="C:\RAGHAV\JIIT\2ND YEAR\3rd Sem\DBW PROJECT\dd\cab_system_latest\cab_system\passenger_details">
+                    Submit
+                </a>
+            </button><br>
+            
+        </form>
+    </div>    
+    <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $f_name = $_POST['f_name'];
+    $l_name = $_POST['l_name'];
+    $age = $_POST['age'];
+    $pass = md5($_POST['pass']);
+    $mobile_number = $_POST['mobile_number']; 
+    $email = $_POST['email'];
+    $gender = $_POST['gender'];   
+
+    try {
+        
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO passenger (first_name, last_name, age, password, mobile_number, email, gender)
+        VALUES ('".$f_name."', '".$l_name."', '".$age."', '".$pass."', '".$mobile_number."', '".$email."', '".$gender."')";
+        // use exec() because no results are returned
+        $conn->exec($sql);
+        $id = $conn->lastInsertId();
+        header("Location: http://localhost/cab_system/passenger_details.php?id=".$id);
+    }
+
+    catch(PDOException $e) {
+        echo $sql . "<br>" . $e->getMessage();
+    }
+
+}
+?>
+
+</body>
+</html>

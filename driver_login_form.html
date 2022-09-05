@@ -1,0 +1,119 @@
+<?php include 'db_info.php' ?>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+<title></title>
+	<link rel="stylesheet" type="text/css" href="css/global.css"></link>
+<style>
+ * {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url("https://www.bharattaxi.com/blog/wp-content/uploads/2018/03/All-India-Taxi-Service.jpg");
+    color: white;
+}
+#container {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 80%;
+    color: white;
+    margin: 30px 100px ;
+    text-align: center;
+    padding: 20px;
+}
+#title {
+    text-align: center;
+    font-size: 50px;
+    font-family: "Bowlby One SC", cursive;
+    padding-top: 15px;
+    letter-spacing: 5px;
+}
+span {
+    color:#ff0000;
+}
+#description {
+    text-align: center;
+    font-size: 23px;
+    font-family: "Sorts Mill Goudy", sans-serif;
+    margin-bottom: 15px;
+}
+#submit {
+    background-color:red;
+    font-size: larger;
+    height: 45px;
+    width: 160px;
+    border-radius: 50px;
+    border: none;
+    color: white;
+    margin: 16px 0px 16px 50px;
+    text-align: center;
+}
+#submit:hover {
+    background: white;
+    color: red;
+    cursor: pointer;
+}
+	
+
+
+
+
+</style>
+</head>
+<body>
+
+<center>
+<div id="container">
+<h1 id="title">Driver <span>Login</span></h1>
+        <p id="description">Thank you for signing up at Online Cab Services. Tell us more about your self</p>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+<p>
+Mobile Number : <input type="tel" placeholder="7894561230" name="mobile_no" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required>
+</p>
+<p>
+Password : <input type="password" name="password" required>
+</p>
+<?php if(isset($_GET['message'])){ ?>
+	<div>
+		<h4 id = "danger">Username or Password is not correct</h4>
+	</div>
+<?php }?>
+<input type="submit" name="button">
+</form>
+
+</center>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $mobile_no = $_POST['mobile_no'];
+    $pass = $_POST['password'];   
+
+    try {
+    	print_r($password);
+		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+		// set the PDO error mode to exception
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT id FROM driver WHERE mobile_number = '".$mobile_no."' AND password = '".md5($pass)."' ";
+		$driver_data = $conn->prepare($sql);
+		$driver_data->execute();
+		$rides_array = $driver_data->setFetchMode(PDO::FETCH_ASSOC);
+		$val_data = $driver_data->fetchAll();
+		if(empty($val_data)){
+			header("Location: http://localhost/cab_system/driver_login_form.php?message=true");
+		}else{
+			header("Location: http://localhost/cab_system/driver_details.php?id=".$val_data[0]['id']);
+		}
+	}
+
+	catch(PDOException $e) {
+		echo $sql . "<br>" . $e->getMessage();
+	}
+
+}
+?>
+
+</body>
+</html>

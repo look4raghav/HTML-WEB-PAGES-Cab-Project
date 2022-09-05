@@ -1,0 +1,126 @@
+<?php include 'db_info.php' ?>
+
+<?php if(isset($_GET["id"])){
+
+	try {
+	    	
+			$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+			// set the PDO error mode to exception
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$stmt = $conn->prepare("SELECT * FROM passenger WHERE id = '".$_GET["id"]."'");
+			$stmt->execute();
+  			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll();
+			
+
+			$rides =  $conn->prepare("SELECT driver.first_name, driver.last_name, ride.source, ride.destination, ride.date  FROM ride INNER JOIN driver ON ride.driver_id = driver.id WHERE ride.passenger_id = '".$_GET["id"]."'");
+			$rides->execute();
+			$rides_array = $rides->setFetchMode(PDO::FETCH_ASSOC);
+			$rides_array = $rides->fetchAll();
+
+		}
+
+		catch(PDOException $e) {
+			echo $sql . "<br>" . $e->getMessage();
+		}
+}
+
+?>	
+
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="css/global.css"></link>
+	 <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+<title></title>
+<style>
+	 * {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url("https://www.bharattaxi.com/blog/wp-content/uploads/2018/03/All-India-Taxi-Service.jpg");
+    color: white;
+}
+ #container {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 80%;
+    color: white;
+    margin: 30px 100px ;
+    text-align: center;
+    padding: 20px;
+}
+#title {
+    text-align: center;
+    font-size: 50px;
+    font-family: "Bowlby One SC", cursive;
+    padding-top: 15px;
+    letter-spacing: 5px;
+}
+span {
+    color:#ff0000;
+}
+#description {
+    text-align: center;
+    font-size: 23px;
+    font-family: "Sorts Mill Goudy", sans-serif;
+    margin-bottom: 15px;
+}
+#ride_data {
+	background-color: darkred;
+}
+
+
+
+
+</style>
+
+</head>
+
+<body>
+	<h1 id="title">My <span>Profile</span></h1>
+        <p id="description">Thank you for signing up at Online Cab Services. Tell us more about your self</p>
+<center>
+	<div>
+		<h3><?php print_r($result[0]['first_name']); ?></h3>
+		<h3><?php print_r($result[0]['last_name']); ?></h3>
+		<h3><?php print_r($result[0]['age']); ?></h3>
+		<h3><?php print_r($result[0]['email']); ?></h3>
+		<h3><?php print_r($result[0]['mobile_number']); ?></h3>
+		<h3><?php print_r($result[0]['gender']); ?></h3>
+	</div>
+
+	<div>
+		<h2>Rides</h2>
+		<?php if(empty($rides_array)){ ?>
+			<h1> No Rides value</h1>
+		<?php }else{ ?>
+
+		<table id='ride_data'>
+		  <tr>
+		    <th>Source</th>
+		    <th>Destination</th>
+		    <th>Driver</th>
+		    <th>Date</th>
+		  </tr>
+
+		<?php foreach ($rides_array as $value) { ?>
+		  <tr>
+		    <td><?php print_r($value['source']); ?></td>
+		    <td><?php print_r($value['destination']); ?></td>
+		    <td><?php print_r($value['first_name']. ' '. $value['last_name']); ?></td>
+		    <td><?php print_r($value['date'])?></td>
+		  </tr>
+			 <?php } }?>
+
+		</table>
+
+
+	</div>
+	<a href="http://localhost/cab_system/passenger_edit.php?id=<?php echo($_GET['id']) ?>">EDIT</a><br>
+	<a href="http://localhost/cab_system/passenger_login_form.php">LOGOUT</a>
+</center>
+</body>
+
+</html>
